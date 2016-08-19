@@ -10,6 +10,8 @@ import com.orbitz.consul.async.ConsulResponseCallback;
 import com.orbitz.consul.model.ConsulResponse;
 import com.orbitz.consul.model.agent.ImmutableRegCheck;
 import com.orbitz.consul.model.agent.ImmutableRegistration;
+import com.orbitz.consul.model.health.Node;
+import com.orbitz.consul.model.health.Service;
 import com.orbitz.consul.model.health.ServiceHealth;
 import com.orbitz.consul.model.kv.Value;
 import com.orbitz.consul.option.QueryOptions;
@@ -50,6 +52,19 @@ public class ConsulMgr {
         List<ServiceHealth> nodes = healthClient.getHealthyServiceInstances(serviceName).getResponse();
         System.out.println(nodes);
         System.out.println(nodes.size());
+        nodes.forEach((resp) -> {
+            Node node = resp.getNode();
+            System.out.println("node: " + node.getNode());
+            System.out.println("address: " + node.getAddress());
+            Service service = resp.getService();
+            System.out.println("service: " + service.getService());
+            System.out.println("service id: " + service.getId());
+            System.out.println("service port: " + service.getPort());
+            System.out.println("service address: " + service.getAddress());
+            System.out.println("service tags: " + service.getTags());
+        });
+
+
     }
 
     /**
