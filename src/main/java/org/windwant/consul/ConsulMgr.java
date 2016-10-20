@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Created by aayongche on 2016/8/18.
+ * Created by windwant on 2016/8/18.
  */
 public class ConsulMgr {
 

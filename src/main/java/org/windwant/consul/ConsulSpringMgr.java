@@ -7,7 +7,7 @@ import com.ecwid.consul.v1.agent.model.Service;
 import java.util.Map;
 
 /**
- * Created by aayongche on 2016/8/19.
+ * Created by windwant on 2016/8/19.
  */
 public class ConsulSpringMgr {
     private static ConsulClient consulClient;
