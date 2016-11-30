@@ -1,7 +1,17 @@
 package org.windwant.consul;
 
+import com.ecwid.consul.UrlParameters;
+import com.ecwid.consul.json.GsonFactory;
+import com.ecwid.consul.transport.RawResponse;
+import com.ecwid.consul.v1.ConsulClient;
+import com.ecwid.consul.v1.ConsulRawClient;
+import com.ecwid.consul.v1.Response;
+import com.ecwid.consul.v1.kv.model.GetValue;
 import com.google.common.base.Optional;
 import com.google.common.net.HostAndPort;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.orbitz.consul.AgentClient;
 import com.orbitz.consul.Consul;
 import com.orbitz.consul.HealthClient;
@@ -15,13 +25,18 @@ import com.orbitz.consul.model.health.Service;
 import com.orbitz.consul.model.health.ServiceHealth;
 import com.orbitz.consul.model.kv.Value;
 import com.orbitz.consul.option.QueryOptions;
+import com.orbitz.fasterxml.jackson.databind.util.JSONPObject;
+import jdk.nashorn.internal.parser.JSONParser;
 
 import java.math.BigInteger;
+import java.security.URIParameter;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
+ * consul.exe agent -server -bootstrap -data-dir=data -bind=127.0.0.1 -client 0.0.0.0 -ui
  * Created by windwant on 2016/8/18.
  */
 public class ConsulMgr {
@@ -30,7 +45,7 @@ public class ConsulMgr {
     private static HealthClient healthClient;
     private static AgentClient agentClient;
     static {
-        Consul consul = Consul.builder().withHostAndPort(HostAndPort.fromParts("192.168.7.162", 8500)).build();
+        Consul consul = Consul.builder().withHostAndPort(HostAndPort.fromParts("127.0.0.1", 8500)).build();
         keyValueClient = consul.keyValueClient();
         healthClient = consul.healthClient();
         agentClient = consul.agentClient();
@@ -118,7 +133,19 @@ public class ConsulMgr {
         keyValueClient.getValue("student", QueryOptions.blockSeconds(5, new BigInteger("0")).build(), callback);
     }
 
+    public static void mianClient(){
+        ConsulClient consulClient = new ConsulClient("127.0.0.1", 8500);
+        Response<GetValue> response = consulClient.getKVValue("student");
+        System.out.println(new String(Base64.getDecoder().decode(response.getValue().getValue())));
+    }
+
+    public static void rawClient(){
+        ConsulRawClient rawClient = new ConsulRawClient("127.0.0.1", 8500);
+        RawResponse rawResponse = rawClient.makeGetRequest("/v1/kv/student");
+        System.out.println(rawResponse.getContent());
+    }
+
     public static void main(String[] args) {
-        monitor();
+        rawClient();
     }
 }
