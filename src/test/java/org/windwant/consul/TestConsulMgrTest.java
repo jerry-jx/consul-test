@@ -5,6 +5,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Arrays;
 
 /**
  * Unit test for simple TestDubboService.
@@ -44,6 +47,11 @@ public class TestConsulMgrTest
 
     public void testRegister(){
         ConsulMgr.registerService();
+    }
+
+    public void testMix() throws UnsupportedEncodingException {
+        System.out.println(URLEncoder.encode("http://www.baidu.com", "UTF-8"));
+        Arrays.asList();
     }
 
 }
