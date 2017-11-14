@@ -1,6 +1,6 @@
 # consul-test
 
-服务注发现和配置
+服务发现和配置
 
 What is Consul?
 
